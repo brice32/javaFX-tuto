@@ -1,0 +1,6 @@
+@ECHO OFF
+CHCP 1252 >NUL
+PROMPT $G
+CD /D "%~dp0"
+SET JAVA_HOME=C:\dev\java\jdk\jdk8-x86
+CMD

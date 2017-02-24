@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ====================================================================== 
+     15 mai 2016 13:42:51                                                        
+
+     init-config-apache-httpd    
+     Initialise les fichiers de configuration pour Apache et PHP
+                   
+     Emmanuel                                                                
+     ====================================================================== -->
+<project name="init-config-apache-httpd" default="init" basedir="..">
+    <description>
+            Initialise les fichiers de configuration pour Apache et PHP
+    </description>
+
+    <!-- ================================= 
+          Paramètres généraux              
+         ================================= -->
+
+
+	<property name="path.root.appli" location=".." />
+	<property file="global.properties" />
+	<property file="server-apache-httpd-2.4.properties" />
+
+	<script language="javascript">
+	    var before = project.getProperty("path.file.config");
+	    project.setProperty("path.file.config.tpl", before.replace(".conf", ".tpl.conf"));
+	</script>
+	
+	<property name="path.file.php.ini" location="${path.dir.data}/conf/php.ini" />
+	<property name="path.file.php.ini.tpl" location="${path.dir.data}/conf/php.tpl.ini" />
+	
+	
+    <!-- ================================= 
+          target: init              
+         ================================= -->
+    <target name="init" >
+        
+    	<process-template template="${path.file.config.tpl}" tofile="${path.file.config}" />
+    	<process-template template="${path.file.php.ini.tpl}" tofile="${path.file.php.ini}" />
+    	
+    </target>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          macrodef process-template                      
+         - - - - - - - - - - - - - - - - - -->
+	<macrodef name="process-template">
+		<attribute name="template" />
+		<attribute name="tofile" />
+		<sequential>
+
+			<copy file="@{template}" tofile="@{tofile}" overwrite="true" />
+			
+			<replace-backslashes from="path.dir.soft" 		to="slash.path.dir.soft"/>
+			<replace-backslashes from="path.dir.data" 		to="slash.path.dir.data"/>
+			<replace-backslashes from="path.dir.php" 		to="slash.path.dir.php"/>
+			<replace-backslashes from="path.dir.php.ini" 	to="slash.path.dir.php.ini"/>
+			
+			<replace token="${apache.soft.dir}"	value="${slash.path.dir.soft}" 		file="@{tofile}" />
+			<replace token="${apache.data.dir}" value="${slash.path.dir.data}" 		file="@{tofile}" />
+			<replace token="${http.port}" 		value="${server.port}" 				file="@{tofile}" />
+			<replace token="${php.dir}" 		value="${path.dir.php}" 			file="@{tofile}" />
+			<replace token="${php.module.name}" value="${name.module.php}" 			file="@{tofile}" />
+			<replace token="${php.module.file}" value="${name.file.php.module}"		file="@{tofile}" />
+			<replace token="${php.ini.dir}" 	value="${slash.path.dir.php.ini}"	file="@{tofile}" />
+
+		</sequential>
+	</macrodef>
+
+    <!-- - - - - - - - - - - - - - - - - - 
+          macrodef replace-backslashes                      
+         - - - - - - - - - - - - - - - - - -->
+	<macrodef name="replace-backslashes">
+		<attribute name="from" />
+		<attribute name="to" />
+		<sequential>
+			<script language="javascript">
+			    var before = project.getProperty("@{from}");
+			    project.setProperty("@{to}", before.replaceAll("\\\\", "/") );
+			</script>
+			<echo> @{to} ${@{to}} </echo>
+		</sequential>
+	</macrodef>
+	
+</project>
