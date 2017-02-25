@@ -1,7 +1,11 @@
 package contacts.javafx.util.mapper;
 
 import contacts.commun.dto.DtoCompte;
+import contacts.commun.dto.DtoPersonne;
+import contacts.commun.dto.DtoTelephone;
 import contacts.javafx.fxb.FXCompte;
+import contacts.javafx.fxb.FXPersonne;
+import contacts.javafx.fxb.FXTelephone;
 import contacts.javafx.util.mapper.IMapperDtoFX.FactoryObsservableList;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +14,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2017-02-23T22:37:39+0100",
+    date = "2017-02-25T02:08:08+0100",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 1.2.100.v20160418-1457, environment: Java 1.8.0_121 (Oracle Corporation)"
 )
 public class IMapperDtoFXImpl implements IMapperDtoFX {
@@ -23,10 +27,10 @@ public class IMapperDtoFXImpl implements IMapperDtoFX {
             return null;
         }
 
-        target.setId( source.getId() );
-        target.setPseudo( source.getPseudo() );
-        target.setMotDePasse( source.getMotDePasse() );
         target.setEmail( source.getEmail() );
+        target.setId( source.getId() );
+        target.setMotDePasse( source.getMotDePasse() );
+        target.setPseudo( source.getPseudo() );
         if ( target.getRoles() != null ) {
             target.getRoles().clear();
             ObservableList<String> observableList = source.getRoles();
@@ -46,10 +50,10 @@ public class IMapperDtoFXImpl implements IMapperDtoFX {
 
         FXCompte fXCompte = new FXCompte();
 
-        fXCompte.setId( source.getId() );
-        fXCompte.setPseudo( source.getPseudo() );
-        fXCompte.setMotDePasse( source.getMotDePasse() );
         fXCompte.setEmail( source.getEmail() );
+        fXCompte.setId( source.getId() );
+        fXCompte.setMotDePasse( source.getMotDePasse() );
+        fXCompte.setPseudo( source.getPseudo() );
         if ( fXCompte.getRoles() != null ) {
             ObservableList<String> observableList = stringListToStringObservableList( source.getRoles() );
             if ( observableList != null ) {
@@ -81,6 +85,76 @@ public class IMapperDtoFXImpl implements IMapperDtoFX {
         return dtoCompte;
     }
 
+    @Override
+    public FXPersonne map(DtoPersonne source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        FXPersonne fXPersonne = new FXPersonne();
+
+        fXPersonne.setId( source.getId() );
+        fXPersonne.setNom( source.getNom() );
+        fXPersonne.setPrenom( source.getPrenom() );
+        if ( fXPersonne.getTelephones() != null ) {
+            ObservableList<FXTelephone> observableList = dtoTelephoneListToFXTelephoneObservableList( source.getTelephones() );
+            if ( observableList != null ) {
+                fXPersonne.getTelephones().addAll( observableList );
+            }
+        }
+
+        return fXPersonne;
+    }
+
+    @Override
+    public DtoPersonne map(FXPersonne source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        DtoPersonne dtoPersonne = new DtoPersonne();
+
+        dtoPersonne.setId( source.getId() );
+        dtoPersonne.setNom( source.getNom() );
+        dtoPersonne.setPrenom( source.getPrenom() );
+        List<DtoTelephone> list = fXTelephoneObservableListToDtoTelephoneList( source.getTelephones() );
+        if ( list != null ) {
+            dtoPersonne.setTelephones( list );
+        }
+
+        return dtoPersonne;
+    }
+
+    @Override
+    public FXTelephone map(DtoTelephone source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        FXTelephone fXTelephone_ = new FXTelephone();
+
+        fXTelephone_.setId( source.getId() );
+        fXTelephone_.setLibelle( source.getLibelle() );
+        fXTelephone_.setNumero( source.getNumero() );
+
+        return fXTelephone_;
+    }
+
+    @Override
+    public DtoTelephone map(FXTelephone source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        DtoTelephone dtoTelephone_ = new DtoTelephone();
+
+        dtoTelephone_.setId( source.getId() );
+        dtoTelephone_.setLibelle( source.getLibelle() );
+        dtoTelephone_.setNumero( source.getNumero() );
+
+        return dtoTelephone_;
+    }
+
     protected ObservableList<String> stringListToStringObservableList(List<String> list) {
         if ( list == null ) {
             return null;
@@ -92,5 +166,31 @@ public class IMapperDtoFXImpl implements IMapperDtoFX {
         }
 
         return observableList;
+    }
+
+    protected ObservableList<FXTelephone> dtoTelephoneListToFXTelephoneObservableList(List<DtoTelephone> list) {
+        if ( list == null ) {
+            return null;
+        }
+
+        ObservableList<FXTelephone> observableList = factoryObsservableList.createObsListFXTelephone();
+        for ( DtoTelephone dtoTelephone : list ) {
+            observableList.add( map( dtoTelephone ) );
+        }
+
+        return observableList;
+    }
+
+    protected List<DtoTelephone> fXTelephoneObservableListToDtoTelephoneList(ObservableList<FXTelephone> observableList) {
+        if ( observableList == null ) {
+            return null;
+        }
+
+        List<DtoTelephone> list = new ArrayList<DtoTelephone>();
+        for ( FXTelephone fXTelephone : observableList ) {
+            list.add( map( fXTelephone ) );
+        }
+
+        return list;
     }
 }
