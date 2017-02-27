@@ -52,7 +52,14 @@ public class ControllerPersonneForm implements  IController{
 
 	@FXML
 	private void doValider(){
-		modelPersonne.ValiderMiseAJour();
+
+		try {
+			modelPersonne.ValiderMiseAJour();
+		} catch (ExceptionAppli e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+			managerGui.afficherErreur(e);
+		}
 //		Main.showViewPersonneListe();
 		managerGui.showView(EnumView.PersonneListe);
 

@@ -4,9 +4,13 @@ import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert.AlertType;
+import contacts.commun.dto.DtoCompte;
+import contacts.commun.dto.DtoPersonne;
+import contacts.commun.service.IServicePersonne;
 import contacts.commun.util.ExceptionAppli;
 import contacts.javafx.fxb.*;
 import contacts.javafx.model.IModelPersonne;
+import contacts.javafx.util.mapper.IMapperDtoFX;
 import contacts.javafx.view.IManagerGui;
 
 public class ModelPersonne implements IModelPersonne {
@@ -19,6 +23,10 @@ public class ModelPersonne implements IModelPersonne {
 
 	private IManagerGui managerGui;
 
+
+	private IServicePersonne servicePersonne;
+
+	private IMapperDtoFX mapper;
 //	public ModelPersonne(){
 //		actualiserListe();
 //	}
@@ -27,12 +35,16 @@ public class ModelPersonne implements IModelPersonne {
 	 * @see contacts.javafx.model.mock.IModelPersonne#actualiserListe()
 	 */
 	@Override
-	public void actualiserListe(){
+	public void actualiserListe() throws ExceptionAppli{
 		personnes.clear();
 
-		personnes.add(new FXPersonne(1,"DUBOIS","Jean"));
-		personnes.add(new FXPersonne(2,"DUPONT","Marie"));
-		personnes.add(new FXPersonne(3,"DURAND","Pierre"));
+//		personnes.add(new FXPersonne(1,"DUBOIS","Jean"));
+//		personnes.add(new FXPersonne(2,"DUPONT","Marie"));
+//		personnes.add(new FXPersonne(3,"DURAND","Pierre"));
+		for( DtoPersonne dto : servicePersonne.listerTout() ) {
+		FXPersonne personne = mapper.map( dto );
+			personnes.add(personne);
+		}
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +60,8 @@ public class ModelPersonne implements IModelPersonne {
 	 * @see contacts.javafx.model.mock.IModelPersonne#supprimer(contacts.javafx.fxb.FXPersonne)
 	 */
 	@Override
-	public void supprimer(FXPersonne personne){
+	public void supprimer(FXPersonne personne) throws ExceptionAppli{
+		servicePersonne.supprimer(personne.getId());
 		personnes.remove(personne);
 	}
 
@@ -101,7 +114,7 @@ public class ModelPersonne implements IModelPersonne {
 	 * @see contacts.javafx.model.mock.IModelPersonne#ValiderMiseAJour()
 	 */
 	@Override
-	public void ValiderMiseAJour( ){
+	public void ValiderMiseAJour( ) throws ExceptionAppli{
 		int dernierId;
 		String message="";
 		String Nom=personneVue.getNom();
@@ -120,14 +133,20 @@ public class ModelPersonne implements IModelPersonne {
 		if(message.length()==0){
 			copierDonnees(personneVue, personneCourant);
 			if(!personnes.contains(personneCourant)){
-				if(personnes.size()!=0){
-				dernierId=personnes.get(personnes.size()-1).getId();
-				personneCourant.setId(dernierId+1);
-				}
-				else{
-					personneCourant.setId(1);
-				}
-				personnes.add(personneCourant);
+				/*下面这些都是为了能够正确的赋上ID的值，结果神tm用mapper的方法就自动能弄好了*/
+//				if(personnes.size()!=0){
+//				dernierId=personnes.get(personnes.size()-1).getId();
+//				personneCourant.setId(dernierId+1);
+//				}
+//				else{
+//					personneCourant.setId(1);
+//				}
+//				personnes.add(personneCourant);
+//				DtoPersonne dtopersonne = mapper.map(personneCourant);
+//				servicePersonne.inserer(dtopersonne);
+				int id = servicePersonne.inserer( mapper.map( personneVue ) );
+				personneVue.setId( id );
+				personnes.add(personneVue);
 			}
 		}else{
 /*AlertType.ERROR
@@ -162,6 +181,16 @@ AlertType.INFORMATION*/
 	@Override
 	public void refresh() throws ExceptionAppli {
 	 actualiserListe();
+	}
+
+
+	public void setServicePersonne(IServicePersonne servicePersonne) {
+		this.servicePersonne = servicePersonne;
+	}
+
+
+	public void setMapper(IMapperDtoFX mapper) {
+		this.mapper = mapper;
 	}
 
 }

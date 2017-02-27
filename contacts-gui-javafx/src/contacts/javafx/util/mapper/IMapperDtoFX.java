@@ -36,6 +36,11 @@ public interface IMapperDtoFX {
 
 	DtoTelephone map( FXTelephone source);
 
+	FXPersonne update( FXPersonne source, @MappingTarget FXPersonne cible );
+
+	FXTelephone duplicate( FXTelephone source );
+
+	ObservableList<FXTelephone> duplicate( ObservableList<FXTelephone> source );
     // Classe auxiliaire
 
     public static class FactoryObsservableList {

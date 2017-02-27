@@ -14,7 +14,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2017-02-25T02:08:08+0100",
+    date = "2017-02-27T20:00:22+0100",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 1.2.100.v20160418-1457, environment: Java 1.8.0_121 (Oracle Corporation)"
 )
 public class IMapperDtoFXImpl implements IMapperDtoFX {
@@ -153,6 +153,55 @@ public class IMapperDtoFXImpl implements IMapperDtoFX {
         dtoTelephone_.setNumero( source.getNumero() );
 
         return dtoTelephone_;
+    }
+
+    @Override
+    public FXPersonne update(FXPersonne source, FXPersonne cible) {
+        if ( source == null ) {
+            return null;
+        }
+
+        cible.setId( source.getId() );
+        cible.setNom( source.getNom() );
+        cible.setPrenom( source.getPrenom() );
+        if ( cible.getTelephones() != null ) {
+            cible.getTelephones().clear();
+            ObservableList<FXTelephone> observableList = duplicate( source.getTelephones() );
+            if ( observableList != null ) {
+                cible.getTelephones().addAll( observableList );
+            }
+        }
+
+        return cible;
+    }
+
+    @Override
+    public FXTelephone duplicate(FXTelephone source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        FXTelephone fXTelephone = new FXTelephone();
+
+        fXTelephone.setId( source.getId() );
+        fXTelephone.setLibelle( source.getLibelle() );
+        fXTelephone.setNumero( source.getNumero() );
+
+        return fXTelephone;
+    }
+
+    @Override
+    public ObservableList<FXTelephone> duplicate(ObservableList<FXTelephone> source) {
+        if ( source == null ) {
+            return null;
+        }
+
+        ObservableList<FXTelephone> observableList____ = factoryObsservableList.createObsListFXTelephone();
+        for ( FXTelephone fXTelephone : source ) {
+            observableList____.add( duplicate( fXTelephone ) );
+        }
+
+        return observableList____;
     }
 
     protected ObservableList<String> stringListToStringObservableList(List<String> list) {

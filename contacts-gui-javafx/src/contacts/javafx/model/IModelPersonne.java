@@ -7,11 +7,11 @@ import javafx.collections.ObservableList;
 
 public interface IModelPersonne {
 
-	void actualiserListe();
+	void actualiserListe() throws ExceptionAppli;
 
 	ObservableList<FXPersonne> getPersonnes();
 
-	void supprimer(FXPersonne personne);
+	void supprimer(FXPersonne personne) throws ExceptionAppli;
 
 	FXPersonne getPersonneVue();
 
@@ -19,7 +19,7 @@ public interface IModelPersonne {
 
 	void preparerModifier();
 
-	void ValiderMiseAJour();
+	void ValiderMiseAJour() throws ExceptionAppli;
 
 	void ajouterTelephone();
 
