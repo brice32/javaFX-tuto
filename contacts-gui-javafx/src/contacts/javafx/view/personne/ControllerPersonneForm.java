@@ -3,7 +3,7 @@ package contacts.javafx.view.personne;
 import contacts.commun.util.ExceptionAppli;
 import contacts.javafx.fxb.FXPersonne;
 import contacts.javafx.fxb.FXTelephone;
-import contacts.javafx.view.util.EditingCell;
+import contacts.gui.EditingCell;
 import contacts.javafx.model.IModelPersonne;
 import contacts.javafx.model.mock.ModelPersonne;
 import contacts.javafx.view.EnumView;
@@ -55,13 +55,14 @@ public class ControllerPersonneForm implements  IController{
 
 		try {
 			modelPersonne.ValiderMiseAJour();
+			managerGui.showView(EnumView.PersonneListe);
 		} catch (ExceptionAppli e) {
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 			managerGui.afficherErreur(e);
 		}
 //		Main.showViewPersonneListe();
-		managerGui.showView(EnumView.PersonneListe);
+
 
 	}
 	@FXML

@@ -3,7 +3,9 @@ package contacts.javafx.model.standard;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Parent;
 import javafx.scene.control.Alert.AlertType;
+import sun.rmi.runtime.Log;
 import contacts.commun.dto.DtoCompte;
 import contacts.commun.dto.DtoPersonne;
 import contacts.commun.service.IServicePersonne;
@@ -12,6 +14,7 @@ import contacts.javafx.fxb.*;
 import contacts.javafx.model.IModelPersonne;
 import contacts.javafx.util.mapper.IMapperDtoFX;
 import contacts.javafx.view.IManagerGui;
+import contacts.commun.util.ExceptionAppli;;
 
 public class ModelPersonne implements IModelPersonne {
 
@@ -74,16 +77,16 @@ public class ModelPersonne implements IModelPersonne {
 	}
 
 	// Méthodes auxiliaires
-	private FXPersonne copierDonnees( FXPersonne source, FXPersonne cible ) {
-	cible.setId( source.getId() );
-	cible.setNom( source.getNom() );
-	cible.setPrenom( source.getPrenom() );
-	cible.getTelephones().clear();
-	for(FXTelephone personne : source.getTelephones()){
-		cible.getTelephones().add(personne);
-	}
-	return cible ;
-	}
+//	private FXPersonne copierDonnees( FXPersonne source, FXPersonne cible ) {
+//	cible.setId( source.getId() );
+//	cible.setNom( source.getNom() );
+//	cible.setPrenom( source.getPrenom() );
+//	cible.getTelephones().clear();
+//	for(FXTelephone telephone : source.getTelephones()){
+//		cible.getTelephones().add(telephone);
+//	}
+//	return cible ;
+//	}
 
 	/* (non-Javadoc)
 	 * @see contacts.javafx.model.mock.IModelPersonne#preparerModifier(contacts.javafx.fxb.FXPersonne)
@@ -92,11 +95,13 @@ public class ModelPersonne implements IModelPersonne {
 	public void preparerModifier( FXPersonne personne ){
 		if(personne!=null){
 		personneCourant=personne;
-		copierDonnees(personne, personneVue);
+//		copierDonnees(personne, personneVue);
+		mapper.update(personne, personneVue);
 		}
 		else{
 			personneCourant=new FXPersonne();
-			copierDonnees(personneCourant, personneVue);
+//			copierDonnees(personneCourant, personneVue);
+			mapper.update(personneCourant, personneVue);
 		}
 	}
 
@@ -107,7 +112,8 @@ public class ModelPersonne implements IModelPersonne {
 	public void preparerModifier(){
 		personneCourant=new FXPersonne();
 //		personnes.add(personneCourant);
-		copierDonnees(personneCourant, personneVue);
+//		copierDonnees(personneCourant, personneVue);
+		mapper.update(personneCourant, personneVue);
 	}
 
 	/* (non-Javadoc)
@@ -120,18 +126,18 @@ public class ModelPersonne implements IModelPersonne {
 		String Nom=personneVue.getNom();
 		String Prenom=personneVue.getPrenom();
 		if(Nom==null||Nom.length()==0){
-			message+="Le nom de la personne ne doit pas être vide.\n";
+			message+="Le nom de la personne ne doit pas etre vide.\n";
 		}else if(Nom.length()>=25){
-			message+="La longueur du nom ne doit pas excéder 25 caractères.\n";
+			message+="La longueur du nom ne doit pas exceder 25 caracteres.\n";
 		}
 		if(Prenom==null||Prenom.length()==0){
-			message+="Le prenom de la personne ne doit pas être vide.\n";
+			message+="Le prenom de la personne ne doit pas etre vide.\n";
 		}else if(Prenom.length()>=25){
-			message+="La longueur du prenom ne doit pas excéder 25 caractères..\n";
+			message+="La longueur du prenom ne doit pas exceder 25 caracteres..\n";
 		}
-
 		if(message.length()==0){
-			copierDonnees(personneVue, personneCourant);
+//			copierDonnees(personneVue, personneCourant);
+			mapper.update(personneVue, personneCourant);
 			if(!personnes.contains(personneCourant)){
 				/*下面这些都是为了能够正确的赋上ID的值，结果神tm用mapper的方法就自动能弄好了*/
 //				if(personnes.size()!=0){
@@ -153,10 +159,13 @@ public class ModelPersonne implements IModelPersonne {
 AlertType.WARNING
 AlertType.INFORMATION*/
 //			Main.afficherMessage(message, AlertType.ERROR);
-			managerGui.afficherErreur( new Exception(message) );
-
+//			managerGui.afficherErreur( message );
+			throw new ExceptionAppli(message) {
+			};
 		}
+		mapper.update( mapper.map( servicePersonne.retrouver( personneVue.getId()) ), personneVue );
 	}
+
 
 	/* (non-Javadoc)
 	 * @see contacts.javafx.model.mock.IModelPersonne#ajouterTelephone()

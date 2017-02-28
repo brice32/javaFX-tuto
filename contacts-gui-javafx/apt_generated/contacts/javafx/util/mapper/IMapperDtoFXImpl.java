@@ -14,7 +14,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2017-02-27T20:00:22+0100",
+    date = "2017-02-27T20:54:39+0100",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 1.2.100.v20160418-1457, environment: Java 1.8.0_121 (Oracle Corporation)"
 )
 public class IMapperDtoFXImpl implements IMapperDtoFX {
@@ -27,10 +27,10 @@ public class IMapperDtoFXImpl implements IMapperDtoFX {
             return null;
         }
 
-        target.setEmail( source.getEmail() );
         target.setId( source.getId() );
-        target.setMotDePasse( source.getMotDePasse() );
         target.setPseudo( source.getPseudo() );
+        target.setMotDePasse( source.getMotDePasse() );
+        target.setEmail( source.getEmail() );
         if ( target.getRoles() != null ) {
             target.getRoles().clear();
             ObservableList<String> observableList = source.getRoles();
@@ -50,10 +50,10 @@ public class IMapperDtoFXImpl implements IMapperDtoFX {
 
         FXCompte fXCompte = new FXCompte();
 
-        fXCompte.setEmail( source.getEmail() );
         fXCompte.setId( source.getId() );
-        fXCompte.setMotDePasse( source.getMotDePasse() );
         fXCompte.setPseudo( source.getPseudo() );
+        fXCompte.setMotDePasse( source.getMotDePasse() );
+        fXCompte.setEmail( source.getEmail() );
         if ( fXCompte.getRoles() != null ) {
             ObservableList<String> observableList = stringListToStringObservableList( source.getRoles() );
             if ( observableList != null ) {

@@ -40,7 +40,7 @@
       </Label>
       <HBox alignment="CENTER" layoutY="175.0" prefHeight="131.0" prefWidth="405.0" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="175.0">
          <children>
-            <TableView fx:id="tableViewTelphones" layoutX="222.0" layoutY="244.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="120.0" prefWidth="345.0" tableMenuButtonVisible="true">
+            <TableView fx:id="tableViewTelphones" editable="true" layoutX="222.0" layoutY="244.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="120.0" prefWidth="345.0" tableMenuButtonVisible="true">
               <columns>
                 <TableColumn fx:id="columnId" prefWidth="40.0" resizable="false" text="Id" />
                 <TableColumn fx:id="columnLibelle" prefWidth="144.0" resizable="false" sortType="DESCENDING" text="Libelle" />
