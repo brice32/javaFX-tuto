@@ -12,8 +12,8 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2017-02-28T12:15:52+0100",
-    comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 1.2.100.v20160418-1457, environment: Java 1.8.0_121 (Oracle Corporation)"
+    date = "2017-02-28T15:27:39+0100",
+    comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 1.2.100.v20160418-1457, environment: Java 1.8.0_20 (Oracle Corporation)"
 )
 public class IMapperDoDtoImpl implements IMapperDoDto {
 
@@ -25,10 +25,10 @@ public class IMapperDoDtoImpl implements IMapperDoDto {
 
         Compte compte = new Compte();
 
-        compte.setEmail( source.getEmail() );
         compte.setId( source.getId() );
-        compte.setMotDePasse( source.getMotDePasse() );
         compte.setPseudo( source.getPseudo() );
+        compte.setMotDePasse( source.getMotDePasse() );
+        compte.setEmail( source.getEmail() );
         List<String> list = source.getRoles();
         if ( list != null ) {
             compte.setRoles(       new ArrayList<String>( list )

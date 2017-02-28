@@ -121,7 +121,7 @@ public class ModelPersonne implements IModelPersonne {
 	 */
 	@Override
 	public void ValiderMiseAJour( ) throws ExceptionAppli{
-		int dernierId;
+//		int dernierId;
 		String message="";
 		String Nom=personneVue.getNom();
 		String Prenom=personneVue.getPrenom();
@@ -153,6 +153,7 @@ public class ModelPersonne implements IModelPersonne {
 				int id = servicePersonne.inserer( mapper.map( personneVue ) );
 				personneVue.setId( id );
 				personnes.add(personneVue);
+				mapper.update( mapper.map( servicePersonne.retrouver( personneVue.getId()) ), personneVue );
 			}
 		}else{
 /*AlertType.ERROR
@@ -163,7 +164,6 @@ AlertType.INFORMATION*/
 			throw new ExceptionAppli(message) {
 			};
 		}
-		mapper.update( mapper.map( servicePersonne.retrouver( personneVue.getId()) ), personneVue );
 	}
 
 
