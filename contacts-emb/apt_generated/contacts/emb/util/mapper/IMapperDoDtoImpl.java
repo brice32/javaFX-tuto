@@ -12,7 +12,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2017-02-28T01:07:58+0100",
+    date = "2017-02-28T12:15:52+0100",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 1.2.100.v20160418-1457, environment: Java 1.8.0_121 (Oracle Corporation)"
 )
 public class IMapperDoDtoImpl implements IMapperDoDto {
@@ -74,6 +74,8 @@ public class IMapperDoDtoImpl implements IMapperDoDto {
         if ( list != null ) {
             personne.setTelephones( list );
         }
+
+        ajouterRefPersonne( personne );
 
         return personne;
     }

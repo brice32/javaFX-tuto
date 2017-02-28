@@ -1,6 +1,9 @@
 package contacts.emb.util.mapper;
 
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
 import contacts.commun.dto.DtoCompte;
@@ -27,8 +30,16 @@ public interface IMapperDoDto {
 
 	DtoPersonne map( Personne source );
 
+	@Mapping( target="personne", ignore=true )
 	Telephone map( DtoTelephone source );
+
 
 	DtoTelephone map( Telephone source );
 
+	@AfterMapping
+	default void ajouterRefPersonne( @MappingTarget Personne personne ) {
+	 for ( Telephone telephone : personne.getTelephones() ) {
+	 telephone.setPersonne( personne );
+	 }
+	}
 }
