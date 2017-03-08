@@ -39,13 +39,13 @@ public class MainContacts {
 
 			// JDBC
 			dataSource =
-					null;
-//					new DataSourceSingleConnection( MainContacts.class.getResourceAsStream( "/META-INF/jdbc.properties" ) );
+//					null;
+					new DataSourceSingleConnection( MainContacts.class.getResourceAsStream( "/META-INF/jdbc.properties" ) );
 
 			contextDao =
 //					null;
-					new contacts.emb.dao.mock.ContextDao();
-//					new contacts.emb.dao.jdbc.ContextDao( dataSource );
+//					new contacts.emb.dao.mock.ContextDao();
+					new contacts.emb.dao.jdbc.ContextDao( dataSource );
 
 			contextService =
 //					null;

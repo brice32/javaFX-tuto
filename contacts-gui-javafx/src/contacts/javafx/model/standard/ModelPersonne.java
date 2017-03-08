@@ -136,9 +136,14 @@ public class ModelPersonne implements IModelPersonne {
 			message+="La longueur du prenom ne doit pas exceder 25 caracteres..\n";
 		}
 		if(message.length()==0){
+			if(personneVue.getId()==0){
+
+			}
+
 //			copierDonnees(personneVue, personneCourant);
-			mapper.update(personneVue, personneCourant);
-			if(!personnes.contains(personneCourant)){
+
+//			if(!personnes.contains(personneCourant)){
+			if(personneVue.getId()==0){
 				/*下面这些都是为了能够正确的赋上ID的值，结果神tm用mapper的方法就自动能弄好了*/
 //				if(personnes.size()!=0){
 //				dernierId=personnes.get(personnes.size()-1).getId();
@@ -152,9 +157,14 @@ public class ModelPersonne implements IModelPersonne {
 //				servicePersonne.inserer(dtopersonne);
 				int id = servicePersonne.inserer( mapper.map( personneVue ) );
 				personneVue.setId( id );
-				personnes.add(personneVue);
-				mapper.update( mapper.map( servicePersonne.retrouver( personneVue.getId()) ), personneVue );
+				personnes.add(personneCourant);
+
+			}else{
+				servicePersonne.modifier(mapper.map( personneVue ));
+
 			}
+			mapper.update( mapper.map( servicePersonne.retrouver( personneVue.getId()) ), personneVue );
+			mapper.update(personneVue, personneCourant);
 		}else{
 /*AlertType.ERROR
 AlertType.WARNING
@@ -164,6 +174,7 @@ AlertType.INFORMATION*/
 			throw new ExceptionAppli(message) {
 			};
 		}
+
 	}
 
 

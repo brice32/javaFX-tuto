@@ -69,6 +69,9 @@ public class ModelPersonne {
 	}
 
 	public void ValiderMiseAJour( ){
+		for(FXTelephone t:personneVue.getTelephones()){
+			System.out.println(t.getId()+" "+t.getLibelle()+" "+t.getNumero());
+		}
 		int dernierId;
 		String message="";
 		String Nom=personneVue.getNom();
